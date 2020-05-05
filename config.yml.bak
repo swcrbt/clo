@@ -1,0 +1,11 @@
+server:
+  address: ""
+sms:
+  secretid: ""
+  secretkey: ""
+mysql:
+  user: ""
+  password: ""
+  host: ""
+  port: ""
+  name: ""
