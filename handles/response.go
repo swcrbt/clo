@@ -14,6 +14,10 @@ const (
 	CODE_PARAMS_MISS
 	CODE_SIGNUP_REPEAT
 	CODE_NOT_RECORD
+	CODE_NOT_APPROVED
+	CODE_NOT_AGREE
+	CODE_SIGNUP_REPEAT_AGREE
+	CODE_SIGNUP_REPEAT_UNAGREE
 )
 
 func Response(c *gin.Context, code int, message string, data interface{}) {

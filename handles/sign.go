@@ -26,6 +26,16 @@ func Sign(c *gin.Context) {
 		return
 	}
 
+	if info.Status == 0 {
+		Response(c, CODE_NOT_APPROVED, "您的报名未审批", nil)
+		return
+	}
+
+	if info.Status != 1 {
+		Response(c, CODE_NOT_AGREE, "您的报名不通过", nil)
+		return
+	}
+
 	info.IsSign = true
 	info.SignTime = db.NullTime{mysql.NullTime{time.Now(), true}}
 	result := db.MysqlDB.Save(&info).RowsAffected

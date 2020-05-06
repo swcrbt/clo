@@ -32,6 +32,16 @@ func SignUp(c *gin.Context) {
 
 	var info db.Info
 	if !db.MysqlDB.Where("mobile = ?", params.Mobile).First(&info).RecordNotFound() {
+		if info.Status == 1 {
+			Response(c, CODE_SIGNUP_REPEAT_AGREE, "您已报名成功，审批通过", nil)
+			return
+		}
+
+		if info.Status == 2 {
+			Response(c, CODE_SIGNUP_REPEAT_UNAGREE, "您已报名成功，审批不通过", nil)
+			return
+		}
+
 		Response(c, CODE_SIGNUP_REPEAT, "您已报名成功，无需重复报名", nil)
 		return
 	}
