@@ -15,7 +15,7 @@ type SignParams struct {
 func Sign(c *gin.Context) {
 	var params SignParams
 	// 验证数据并绑定
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := c.ShouldBind(&params); err != nil {
 		ResponseError(c, err)
 		return
 	}
@@ -45,5 +45,5 @@ func Sign(c *gin.Context) {
 		return
 	}
 
-	Response(c, CODE_OK, "签到成功", nil)
+	Response(c, CODE_OK, "签到成功", info)
 }

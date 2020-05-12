@@ -28,10 +28,28 @@ type Info struct {
 	Name       string   `gorm:"column:name" json:"name"`
 	Company    string   `gorm:"column:company" json:"company"`
 	Position   string   `gorm:"column:position" json:"position"`
+	Province   string   `gorm:"column:province" json:"province"`
+	Relation   int      `gorm:"column:relation" json:"relation"`
+	Nature     string   `gorm:"column:nature" json:"nature"`
+	Region     string   `gorm:"column:region" json:"region"`
 	Mobile     string   `gorm:"column:mobile" json:"mobile"`
 	IsSign     bool     `gorm:"column:issign" json:"issign"`
 	Status     int      `gorm:"column:status" json:"status"`
 	SignTime   NullTime `gorm:"column:signtime" "default: null" json:"signtime"`
 	AgreeTime  NullTime `gorm:"column:agreetime" "default: null" json:"agreetime"`
 	CreateTime NullTime `gorm:"column:createtime" "default: null" json:"createtime"`
+}
+
+const (
+	RelationChannel = iota
+	RelationClient
+	RelationMedia
+	RelationOther
+)
+
+var RelationText = map[int]string{
+	RelationChannel: "渠道伙伴",
+	RelationClient:  "客户",
+	RelationMedia:   "媒体",
+	RelationOther:   "其他",
 }

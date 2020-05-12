@@ -14,13 +14,17 @@ type createSignUpParams struct {
 	Company  string `form:"company" binding:"required"`
 	Position string `form:"position" binding:"required"`
 	Mobile   string `form:"mobile" binding:"required"`
+	Province string `form:"province"`
+	Relation int    `form:"relation"`
+	Nature   string `form:"nature"`
+	Region   string `form:"region"`
 	// Code     string `form:"code" binding:"required"`
 }
 
 func SignUp(c *gin.Context) {
 	var params createSignUpParams
 	// 验证数据并绑定
-	if err := c.ShouldBindJSON(&params); err != nil {
+	if err := c.ShouldBind(&params); err != nil {
 		ResponseError(c, err)
 		return
 	}
@@ -51,6 +55,10 @@ func SignUp(c *gin.Context) {
 		Company:    params.Company,
 		Position:   params.Position,
 		Mobile:     params.Mobile,
+		Province:   params.Province,
+		Relation:   params.Relation,
+		Nature:     params.Nature,
+		Region:     params.Region,
 		CreateTime: db.NullTime{mysql.NullTime{time.Now(), true}},
 	}
 

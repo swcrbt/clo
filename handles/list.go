@@ -32,7 +32,7 @@ func List(c *gin.Context) {
 
 	if params.PageSize > 0 {
 		if params.Page > 1 {
-			listQuery = listQuery.Offset(params.Page*params.PageSize - 1)
+			listQuery = listQuery.Offset((params.Page - 1) * params.PageSize)
 		}
 
 		listQuery = listQuery.Limit(params.PageSize)

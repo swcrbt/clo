@@ -26,7 +26,7 @@ func Export(c *gin.Context) {
 	sheet, _ := file.AddSheet("sheet")
 	// 设置表格头
 	row := sheet.AddRow()
-	var headers = []string{"姓名", "联系电话", "公司", "职位", "审批结果", "是否签到"}
+	var headers = []string{"姓名", "联系电话", "公司", "职位", "省份", "关系", "公司性质", "应用领域", "审批结果", "是否签到"}
 	for _, header := range headers {
 		row.AddCell().Value = header
 	}
@@ -39,6 +39,11 @@ func Export(c *gin.Context) {
 		row.AddCell().Value = info.Mobile
 		row.AddCell().Value = info.Company
 		row.AddCell().Value = info.Position
+		row.AddCell().Value = info.Province
+
+		row.AddCell().Value = db.RelationText[info.Relation]
+		row.AddCell().Value = info.Nature
+		row.AddCell().Value = info.Region
 
 		if info.Status == 1 {
 			row.AddCell().Value = "通过"

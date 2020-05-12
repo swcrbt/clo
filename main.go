@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"midea-clo/db"
 	"midea-clo/handles"
+	"midea-clo/util"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,11 @@ type Config struct {
 		Password string `yaml:"password"`
 		Port     string `yaml:"port"`
 		Name     string `yaml:"name"`
+	}
+	Wechat struct {
+		Token  string `yaml:"token"`
+		AppId  string `yaml:"appid"`
+		Secret string `yaml:"secret"`
 	}
 }
 
@@ -66,19 +72,30 @@ func main() {
 
 	db.MysqlDB.SingularTable(true)
 
+	// 初始化微信
+	util.WechatManger = util.NewWechat(
+		conf.Wechat.Token,
+		conf.Wechat.AppId,
+		conf.Wechat.Secret,
+	)
+
 	// 初始化引擎
 	router := gin.Default()
 
 	router.Use(corsMiddleware())
 
-	router.GET("/get-list", handles.List)
-	router.GET("/get-info", handles.Info)
-	router.GET("/get-statistics", handles.Statistics)
-	router.POST("/send-code", handles.SendCode)
-	router.POST("/sign-up", handles.SignUp)
-	router.POST("/sign", handles.Sign)
-	router.POST("/approval", handles.Approval)
-	router.GET("/export", handles.Export)
+	mideaClo := router.Group("/midea-clo")
+	mideaClo.GET("/get-list", handles.List)
+	mideaClo.GET("/get-info", handles.Info)
+	mideaClo.GET("/get-statistics", handles.Statistics)
+	mideaClo.POST("/send-code", handles.SendCode)
+	mideaClo.POST("/sign-up", handles.SignUp)
+	mideaClo.POST("/sign", handles.Sign)
+	mideaClo.POST("/approval", handles.Approval)
+	mideaClo.GET("/export", handles.Export)
+	mideaClo.GET("/get-signature", handles.GetSignature)
+
+	router.GET("/check-signature", handles.CheckSignature)
 
 	router.Static("/img", "html/img")
 	router.Static("/css", "html/css")
